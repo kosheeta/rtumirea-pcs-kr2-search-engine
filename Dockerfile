@@ -6,15 +6,10 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     ninja-build \
-    git \
     pkg-config \
-    qtbase5-dev \
-    qtchooser \
-    qt5-qmake \
-    qtbase5-dev-tools \
-    libqt5widgets5 \
-    libqt5gui5 \
-    libqt5core5a \
+    qt6-base-dev \
+    qt6-base-dev-tools \
+    libgl1-mesa-dev \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
 
@@ -34,16 +29,22 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
-    libqt5widgets5 \
-    libqt5gui5 \
-    libqt5core5a \
-    libx11-6 \
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository universe \
+    && apt-get update && apt-get install -y \
+        libqt6core6 \
+        libqt6gui6 \
+        libqt6widgets6 \
+        libxkbcommon-x11-0 \
+        libfontconfig1 \
+        libglib2.0-0 \
+        libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY --from=builder /app/build /app/build
+COPY ./data /app/build/data
 
 # Qt/X11
 ENV DISPLAY=:0
