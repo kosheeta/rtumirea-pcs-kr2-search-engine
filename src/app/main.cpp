@@ -9,14 +9,6 @@
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    bool useMocks = false;
-
-    for (int i = 1; i < argc; ++i) {
-        if (std::string(argv[i]) == "--use-mocks") {
-            useMocks = true;
-        }
-    }
-
     IModuleFactory* factory = new ModuleFactory();
 
     auto fileReader = factory->createFileReader();
